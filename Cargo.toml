@@ -1,0 +1,64 @@
+[package]
+name = "my_site"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+codegen-units = 1
+lto = true
+
+[dependencies]
+axum = { version = "0.7.5", features = ["macros"], optional = true }
+console_error_panic_hook = "0.1.7"
+http = { version = "1.1.0", optional = true }
+leptos = { version = "0.6.12", features = ["experimental-islands"] }
+leptos_axum = { version = "0.6.12", features = ["experimental-islands"], optional = true }
+leptos_meta = "0.6.12"
+leptos_router = "0.6.12"
+serde = { version = "1.0.204", features = ["derive"] }
+tokio = { version = "1.38.0", features = ["rt-multi-thread", "macros", "net"], optional = true }
+tower = { version = "0.4.13", optional = true }
+tower-http = { version = "0.5.2", features = ["fs", "compression-gzip", "compression-br"], optional = true }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+wasm-bindgen = "0.2.92"
+
+[features]
+csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr"]
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+ssr = [
+  "dep:axum",
+  "dep:tower",
+  "dep:tower-http",
+  "dep:http",
+  "dep:tokio",
+  "dep:leptos_axum",
+  "leptos/ssr",
+  "leptos_meta/ssr",
+  "leptos_router/ssr"
+]
+
+[package.metadata.cargo-all-features]
+denylist = ["axum", "tower", "tower-http", "http", "tokio", "leptos_axum"]
+skip_feature_sets = [["csr", "ssr"], ["csr", "hydrate"], ["ssr", "hydrate"]]
+
+[package.metadata.leptos]
+output-name = "my_site"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+style-file = "style/output.scss"
+assets-dir = "public"
+site-addr = "0.0.0.0:6969"
+reload-port = 3001
+# end2end-cmd = "npx playwright test"
+browserquery = "defaults"
+watch = false
+env = "DEV"
+bin-features = ["ssr"]
+bin-default-features = false
+hash_file = true
+lib-features = ["hydrate"]
+lib-default-features = false
