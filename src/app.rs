@@ -9,7 +9,7 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        <Stylesheet id="leptos" href="/pkg/my_site.css"/>
+        <Stylesheet href="/pkg/my_site.css"/>
         <Title text="My Site"/>
         <Link rel="shortcut icon" type_="image/ico" href="/icon.ico"/>
         <Meta name="description" content="My site built with Leptos"/>

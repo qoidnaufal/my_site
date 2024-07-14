@@ -1,3 +1,5 @@
+![logo](public/icon.ico)
+
 # MY SITE
 WIP
 
