@@ -2,7 +2,8 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
-use crate::pages::Home;
+use crate::components::NavBar;
+use crate::pages::{Home, MainRs};
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -15,8 +16,10 @@ pub fn App() -> impl IntoView {
         <Meta name="description" content="My site built with Leptos"/>
         <Router>
             <main class="absolute m-auto top-0 left-0 bottom-0 right-0 size-full flex flex-col">
+                <NavBar/>
                 <Routes>
                     <Route path="/" view=Home/>
+                    <Route path="/main_rs" view=MainRs/>
                 </Routes>
             </main>
         </Router>
