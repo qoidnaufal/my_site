@@ -1,6 +1,5 @@
 #[cfg(feature = "ssr")]
 use {
-    crate::app::App,
     axum::{
         body::Body,
         extract::State,
@@ -8,7 +7,7 @@ use {
         response::IntoResponse,
         response::Response as AxumResponse,
     },
-    leptos::*,
+    leptos::prelude::LeptosOptions,
     tower::ServiceExt,
     tower_http::services::ServeDir,
 };
@@ -17,7 +16,7 @@ use {
 pub async fn file_and_error_handler(
     uri: Uri,
     State(options): State<LeptosOptions>,
-    req: Request<Body>,
+    /* req: Request<Body>, */
 ) -> AxumResponse {
     let root = options.site_root.clone();
     let res = get_static_file(uri.clone(), &root).await.unwrap();
@@ -25,8 +24,7 @@ pub async fn file_and_error_handler(
     if res.status() == StatusCode::OK {
         res.into_response()
     } else {
-        let handler = leptos_axum::render_app_to_stream(options.to_owned(), App);
-        handler(req).await.into_response()
+        (StatusCode::NOT_FOUND, "Not Found...").into_response()
     }
 }
 
